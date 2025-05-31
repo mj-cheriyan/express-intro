@@ -1,6 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { logMiddleware } from '../middleware/logging.middleware';
-import { addRequestTimeMiddleware } from '../middleware/addRequestTime.middleware';
+import { logMiddleware, addRequestTimeMiddleware  } from '../middleware/logging.middleware';
 
 const router = Router();
 
@@ -13,9 +12,9 @@ router.post('/submit', (req: Request, res: Response) => {
 });
 
 router.post('/chained/info', logMiddleware, addRequestTimeMiddleware, (req: Request, res: Response) => {
-  res.send({
+  res.json({
     message: "Middleware chaining works!",
-    requestedAt: `${(req as any)['requestTime']}`
+    requestedAt: req.requestTime
 });
 });
 

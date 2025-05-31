@@ -7,7 +7,8 @@
     "strict": true,                              // All strict type checks
     "esModuleInterop": true,                     // Allow default imports from CommonJS
     "skipLibCheck": true,                        // Faster builds
-    "forceConsistentCasingInFileNames": true     // Avoid OS-based casing issues
+    "forceConsistentCasingInFileNames": true ,    // Avoid OS-based casing issues
+     "typeRoots": ["./types", "./node_modules/@types"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

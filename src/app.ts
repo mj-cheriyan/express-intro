@@ -1,14 +1,8 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 
-const app = express();
+const app: Application = express();
 
-app.listen(8080);
-app.use(express.json());
-
-app.get("/public", (req: Request, res: Response )=>{
-    res.send("Public Content");
-});
-
+// Middleware
 function adminMiddleware(req: Request, res: Response, next: NextFunction): void {
     const isAdmin = req.headers['x-admin-token'] === "secret123";
 
@@ -20,10 +14,25 @@ function adminMiddleware(req: Request, res: Response, next: NextFunction): void 
     next();
 }
 
+// Middleware to parse JSON
+app.use(express.json());
+
+
+// Public Route
+app.get("/public", (req: Request, res: Response )=>{
+    res.send("Public Content");
+});
+
+// Admin Route
 app.get("/admin/dashboard", adminMiddleware, (req: Request, res: Response ) => {
      res.send("Welcome Admin");
 });
 
-app.post('/submit', (req: Request, res: Response)=> {
-    res.json({ message: 'Here is your data'});
-})
+// Optional Bonus - Echo Route
+app.post('/submit', (req: Request, res: Response) => {
+  res.json({ received: req.body });
+});
+
+app.listen(8080, () => {
+  console.log('Server running on http://localhost:8080');
+});
